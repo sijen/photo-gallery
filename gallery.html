@@ -13,21 +13,24 @@
         margin: 0;
         padding: 0;
         position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-items: center;
         height: 600px;
       }
       .main-view {
         position: relative;
-        border: 1px solid black;
-        transform: translate(85%, 0%);
-        height: 500px;
-        width: 500px;
+        padding: 25px 0px 25px 0px;
+        height: 550px;
+        width: 550px;
+        transition: width 1s ease;
       }
       .sub-view {
         position: relative;
-        background-color: blue;
         height: 100px;
       }
-      .image,
+
       .image > img {
         position: absolute;
         height: 100%;
@@ -47,6 +50,7 @@
       .right-btn:hover {
         border: solid rgba(207, 219, 207, 0.719);
         border-width: 0 10px 10px 0;
+        cursor: pointer;
       }
       .left-btn {
         left: 10px;
@@ -71,8 +75,8 @@
   <body onload="displayAll()">
     <div class="main-box">
       <div class="main-view">
-        <div class="left-btn"></div>
-        <div class="right-btn"></div>
+        <div class="left-btn" onclick="leftSlide()"></div>
+        <div class="right-btn" onclick="rightSlide()"></div>
         <div class="image">
           <img src="./images/1.jpg" alt="images" />
         </div>
@@ -98,37 +102,64 @@
       </div>
       <div class="sub-view" id="img-list">
         <div class="sub-image">
-          <img src="./images/1.jpg" alt="images" onclick="imageDisplay(1)" />
+          <img src="./images/1.jpg" alt="images" onclick="imageDisplay(0)" />
         </div>
         <div class="sub-image">
-          <img src="./images/2.jpg" alt="images" onclick="imageDisplay(2)" />
+          <img src="./images/2.jpg" alt="images" onclick="imageDisplay(1)" />
         </div>
         <div class="sub-image">
-          <img src="./images/3.jpg" alt="images" onclick="imageDisplay(3)" />
+          <img src="./images/3.jpg" alt="images" onclick="imageDisplay(2)" />
         </div>
         <div class="sub-image">
-          <img src="./images/4.jpg" alt="images" onclick="imageDisplay(4)" />
+          <img src="./images/4.jpg" alt="images" onclick="imageDisplay(3)" />
         </div>
         <div class="sub-image">
-          <img src="./images/5.jpg" alt="images" onclick="imageDisplay(5)" />
+          <img src="./images/5.jpg" alt="images" onclick="imageDisplay(4)" />
         </div>
         <div class="sub-image">
-          <img src="./images/6.jpg" alt="images" onclick="imageDisplay(6)" />
+          <img src="./images/6.jpg" alt="images" onclick="imageDisplay(5)" />
         </div>
         <div class="sub-image">
-          <img src="./images/7.jpg" alt="images" onclick="imageDisplay(7)" />
+          <img src="./images/7.jpg" alt="images" onclick="imageDisplay(6)" />
         </div>
       </div>
       <!-- bottom view of the picture in list -->
     </div>
     <script>
       const image = document.getElementsByClassName("image");
+      var current = 0;
       function displayAll() {
-        image[0].style.visibility = "visible";
         for (let k = 0; k < image.length; k++) {
           image[k].style.visibility = "hidden";
           image[k].style.zIndex = 0;
         }
+        image[0].style.visibility = "visible";
+        image[0].style.zIndex = 1;
+      }
+      function rightSlide() {
+        current += 1;
+        for (let k = 0; k < image.length; k++) {
+          image[k].style.visibility = "hidden";
+          image[k].style.zIndex = 0;
+        }
+        if (current == image.length) {
+          current = 0;
+        }
+        image[current].style.visibility = "visible";
+        image[current].style.zIndex = 1;
+      }
+
+      function leftSlide() {
+        current -= 1;
+        for (let k = 0; k < image.length; k++) {
+          image[k].style.visibility = "hidden";
+          image[k].style.zIndex = 0;
+        }
+        if (current < 0) {
+          current = image.length - 1;
+        }
+        image[current].style.visibility = "visible";
+        image[current].style.zIndex = 1;
       }
       function imageDisplay(a) {
         var b = a;
@@ -138,6 +169,7 @@
           image[k].style.zIndex = 0;
           if (k == b) {
             image[b].style.visibility = "visible";
+            image[b].style.zIndex = 1;
           }
         }
       }
